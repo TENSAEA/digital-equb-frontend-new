@@ -82,7 +82,7 @@ const Invite = ({ inviter }) => {
 
       const notifications = selectedUsers.map((user) => ({
         recipient: user._id,
-        message: `You are invited to join an equb by ${inviter.fname} ${inviter.lname}. Click here to join: http://localhost:3000/join/${equbId}`,
+        message: `You are invited to join an equb by ${inviter.fname} ${inviter.lname}. Click here to join: https://digital-equb-frontend-new.onrender.com/join/${equbId}`,
       }));
 
       await axios.post(
