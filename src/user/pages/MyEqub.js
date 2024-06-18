@@ -16,6 +16,7 @@ const MyEqub = () => {
   const [activeComponent, setActiveComponent] = useState(null);
   const user = JSON.parse(localStorage.getItem("user")); // Get user object from localStorage
   const isAdmin = user?.role === "admin"; // Check if user is admin and access role property
+  const isVerify = user?.status !== "unverified";
   // Function to render the active component based on the state
   const renderActiveComponent = () => {
     switch (activeComponent) {
@@ -30,71 +31,78 @@ const MyEqub = () => {
     }
   };
 
-  return (
-    <Box sx={{ flexGrow: 1, padding: 3 }}>
-      <Grid container spacing={3} justifyContent="center">
-        <Grid item xs={12} sm={4} md={3}>
-          <Card
-            sx={{
-              border: activeComponent === "create" ? "2px solid blue" : "none", // Conditionally apply border
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6">Create Equb</Typography>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => setActiveComponent("create")} // Set the active component
-              >
-                Create Equb
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-        {!isAdmin && (
+  return isVerify ? (
+    <>
+      <Box sx={{ flexGrow: 1, padding: 3 }}>
+        <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} sm={4} md={3}>
             <Card
               sx={{
-                border: activeComponent === "join" ? "2px solid blue" : "none", // Conditionally apply border
+                border:
+                  activeComponent === "create" ? "2px solid blue" : "none", // Conditionally apply border
               }}
             >
               <CardContent>
-                <Typography variant="h6">Join Equb</Typography>
+                <Typography variant="h6">Create Equb</Typography>
                 <Button
                   variant="outlined"
                   fullWidth
-                  onClick={() => setActiveComponent("join")} // Set the active component
+                  onClick={() => setActiveComponent("create")} // Set the active component
                 >
-                  Join Equb
+                  Create Equb
                 </Button>
               </CardContent>
             </Card>
           </Grid>
-        )}
-        <Grid item xs={12} sm={4} md={3}>
-          <Card
-            sx={{
-              border: activeComponent === "myequbs" ? "2px solid blue" : "none", // Conditionally apply border
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6">My Equbs</Typography>
-              <Button
-                variant="outlined"
-                fullWidth
-                onClick={() => setActiveComponent("myequbs")} // Set the active component
+          {!isAdmin && (
+            <Grid item xs={12} sm={4} md={3}>
+              <Card
+                sx={{
+                  border:
+                    activeComponent === "join" ? "2px solid blue" : "none", // Conditionally apply border
+                }}
               >
-                My Equbs
-              </Button>
-            </CardContent>
-          </Card>
+                <CardContent>
+                  <Typography variant="h6">Join Equb</Typography>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={() => setActiveComponent("join")} // Set the active component
+                  >
+                    Join Equb
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
+          <Grid item xs={12} sm={4} md={3}>
+            <Card
+              sx={{
+                border:
+                  activeComponent === "myequbs" ? "2px solid blue" : "none", // Conditionally apply border
+              }}
+            >
+              <CardContent>
+                <Typography variant="h6">My Equbs</Typography>
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  onClick={() => setActiveComponent("myequbs")} // Set the active component
+                >
+                  My Equbs
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Box sx={{ marginTop: 3 }}>
-        {renderActiveComponent()} {/* Render the selected component */}
+        <Box sx={{ marginTop: 3 }}>
+          {renderActiveComponent()} {/* Render the selected component */}
+        </Box>
       </Box>
-    </Box>
+    </>
+  ) : (
+    <Typography>You have to first verify your account!</Typography>
   );
 };
 
