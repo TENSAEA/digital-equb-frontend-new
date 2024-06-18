@@ -149,6 +149,12 @@ const DashboardContent = () => {
     navigate(route);
   };
 
+  const handleDrawClick = () => {
+    const route =
+      equbs.length === 0 ? "/user_member_equbs" : "/user-created-equbs";
+    navigate(route);
+  };
+
   const handleOpen = () => {
     navigate("/supportcard");
   };
@@ -311,9 +317,7 @@ const DashboardContent = () => {
         )}
 
         <Grid item xs={12} sm={6} md={4}>
-          <CardActionArea
-            onClick={() => handleCardClick("/user-created-equbs")}
-          >
+          <CardActionArea onClick={handleDrawClick}>
             <Card
               sx={{ ...cardStyles, "&:hover": { backgroundColor: "#ffebee" } }}
             >

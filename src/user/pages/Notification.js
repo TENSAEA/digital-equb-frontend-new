@@ -10,6 +10,7 @@ import {
   Collapse,
   Alert,
   IconButton,
+  Link,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"; // Import delete icon
 
@@ -152,6 +153,11 @@ const Notifications = () => {
     }
   };
 
+  const parseMessage = (message) => {
+    const [text, linkText] = message.split("Click here to join: ");
+    return { text, linkText };
+  };
+
   return (
     <Box sx={{ padding: 3 }}>
       <Typography variant="h4">Notifications</Typography>
@@ -162,51 +168,61 @@ const Notifications = () => {
       )}
 
       {/* Display the notifications as cards */}
-      {notifications.map((notification) => (
-        <Card key={notification._id} sx={{ marginBottom: 2 }}>
-          <CardContent>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                {notification.read ? "Notification" : "New Message"}
-              </Typography>
-              <Box>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleDetailsClick(notification)}
-                  sx={{ marginRight: 2 }}
-                >
-                  Details
-                </Button>
-                <IconButton
-                  color="secondary"
-                  onClick={() => handleDeleteClick(notification._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
+      {notifications.map((notification) => {
+        const { text, linkText } = parseMessage(notification.message);
+        return (
+          <Card key={notification._id} sx={{ marginBottom: 2 }}>
+            <CardContent>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  {notification.read ? "Notification" : "New Message"}
+                </Typography>
+                <Box>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleDetailsClick(notification)}
+                    sx={{ marginRight: 2 }}
+                  >
+                    Details
+                  </Button>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleDeleteClick(notification._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
               </Box>
-            </Box>
 
-            <Collapse in={selectedNotification === notification._id}>
-              <Box sx={{ marginTop: 2 }}>
-                <Typography variant="body1">
-                  <strong>Message:</strong> {notification.message}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Date:</strong>{" "}
-                  {new Date(notification.createdDate).toLocaleString()}
-                </Typography>
-              </Box>
-            </Collapse>
-          </CardContent>
-        </Card>
-      ))}
+              <Collapse in={selectedNotification === notification._id}>
+                <Box sx={{ marginTop: 2 }}>
+                  <Typography variant="body1">
+                    <strong>Message:</strong> {text}
+                    <Link
+                      href={linkText}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Click here to join
+                    </Link>
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Date:</strong>{" "}
+                    {new Date(notification.createdDate).toLocaleString()}
+                  </Typography>
+                </Box>
+              </Collapse>
+            </CardContent>
+          </Card>
+        );
+      })}
     </Box>
   );
 };

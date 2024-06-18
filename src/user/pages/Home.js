@@ -28,6 +28,8 @@ import Manage from "../../admin/Manage";
 import BuySell from "./equbBuySell";
 import SupportCard from "../../admin/SupportCard";
 import Announcement from "./Announcment";
+import User_Member_Equbs from "./User_Member_Equs";
+import DrawResult from "./DrawResult";
 const Home = () => {
   const { auth, clearAuthData } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -102,6 +104,8 @@ const Home = () => {
           <Route path="/join/:equbId" element={<Join />} />
           <Route path="/equb/buy-sell" element={<BuySell />} />
           <Route path="/manage/:equbId" element={<Manage />} />
+          <Route path="/user-member-equbs" element={<User_Member_Equbs />} />
+          <Route path="/draw/:id/result" element={<DrawResult />} />
         </Routes>
       </Box>
     </div>
