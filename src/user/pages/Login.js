@@ -38,6 +38,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
 
     try {
       const response = await axios.post(
@@ -60,7 +61,6 @@ const Login = () => {
 
       setMessage("Login successful!");
       setIsError(false);
-      setIsLoading(true);
 
       setTimeout(() => {
         navigate("/home"); // Redirect to Home after successful login
@@ -69,6 +69,7 @@ const Login = () => {
       const errorMessage = error.response?.data?.message || "Login failed";
       setMessage(errorMessage);
       setIsError(true);
+      setIsLoading(false); // Stop loading on error
     }
   };
 
@@ -168,9 +169,14 @@ const Login = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ marginBottom: 2 }} // Add spacing below the button
+            sx={{ marginBottom: 2 }}
+            disabled={isLoading} // Disable button while loading
           >
-            Login
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Login"
+            )}
           </Button>
         </form>
 
